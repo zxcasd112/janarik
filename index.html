@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0a0807">
+  <meta name="description" content="JANARIK — тёмная музыкальная платформа.">
+  <title>JANARIK — Haunted Music</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Приветствие">
+    <div class="intro-mark">JNRK</div>
+    <h1>Жанар великий лорд<br><span>made it</span></h1>
+    <button id="enterBtn" class="enter-btn">ВОЙТИ В ЛЕС <b>↗</b></button>
+    <p>best experienced loud</p>
+  </div>
+  <div id="app" class="app is-hidden">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="JANARIK — главная"><span>J</span>JANARIK</a>
+      <nav aria-label="Основная навигация"><button class="nav-item active" data-view="home"><i>⌂</i>Главная</button><button class="nav-item" data-view="search"><i>⌕</i>Поиск</button><button class="nav-item" data-view="library"><i>▤</i>Моя медиатека</button></nav>
+      <div class="side-rule"></div><button class="nav-item" id="likedNav"><i>♥</i>Любимые треки</button><button class="nav-item" id="shuffleAll"><i>⤨</i>Случайный микс</button><div class="sidebar-foot"><span class="pulse"></span>HAUNTED RADIO<br><small>ONLINE / 24—7</small></div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div class="history-buttons"><button id="backBtn" aria-label="Назад">←</button><button id="forwardBtn" aria-label="Вперёд">→</button></div><label class="searchbox"><span>⌕</span><input id="searchInput" type="search" placeholder="Треки, артисты, альбомы" autocomplete="off"></label><button class="profile"><span>Ж</span><b>janarik21</b></button></header>
+      <section id="homeView" class="view">
+        <div class="hero"><div class="hero-copy"><div class="eyebrow">JANARIK EXCLUSIVE • VOL. 001</div><h2>KING OF THE<br><em>GRAVEYARD</em></h2><p>Искажённый звук из глубины леса. Sematary, Yung Lean и ничего лишнего.</p><div class="hero-actions"><button id="heroPlay" class="primary">▶ СЛУШАТЬ</button><button id="heroLike" class="square" aria-label="Добавить подборку в любимое">♡</button></div></div><div class="hero-art" aria-label="Абстрактная обложка: красный крест в тёмном лесу"><div class="moon"></div><div class="cross"><span></span></div><div class="trees"></div><div class="stamp">JNRK<br>2026</div></div></div>
+        <div class="section-head"><div><span>01 / FEATURED</span><h3>Выбор лорда</h3></div><button data-jump="allTracks">Смотреть все →</button></div><div id="featuredGrid" class="album-grid"></div>
+        <div class="section-head" id="allTracks"><div><span>02 / CATALOG</span><h3>Все треки</h3></div><div class="filter-chips"><button class="chip active" data-artist="all">Все</button><button class="chip" data-artist="Sematary">Sematary</button><button class="chip" data-artist="Yung Lean">Yung Lean</button></div></div><div class="track-table-head"><span>#</span><span>Название</span><span>Альбом</span><span>Год</span><span>♡</span></div><div id="trackList" class="track-list"></div>
+      </section>
+      <section id="searchView" class="view hidden"><div class="empty-state"><b>⌕</b><h2>Найди свой звук</h2><p>Начни вводить название трека, артиста или альбома.</p></div></section><section id="libraryView" class="view hidden"><div class="section-head page-title"><div><span>YOUR COLLECTION</span><h3>Моя медиатека</h3></div></div><div id="libraryList" class="track-list"></div></section>
+    </main>
+    <footer class="player"><div class="now-playing"><div id="miniCover" class="mini-cover">J</div><div><b id="currentTitle">Выбери трек</b><span id="currentArtist">JANARIK</span></div><button id="likeCurrent" aria-label="В любимое">♡</button></div><div class="player-center"><div class="controls"><button id="shuffleBtn" aria-label="Перемешать">⤨</button><button id="prevBtn" aria-label="Предыдущий">▮◀</button><button id="playBtn" class="play-main" aria-label="Воспроизвести">▶</button><button id="nextBtn" aria-label="Следующий">▶▮</button><button id="repeatBtn" aria-label="Повтор">↻</button></div><div class="timeline"><span id="elapsed">0:00</span><input id="progress" type="range" min="0" max="100" value="0" aria-label="Прогресс"><span id="duration">0:30</span></div></div><div class="volume"><span>⌕</span><span>◖</span><input id="volume" type="range" min="0" max="100" value="68" aria-label="Громкость"></div></footer>
+  </div><div id="toast" class="toast" role="status"></div><script src="app.js"></script>
+</body></html>
