@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090706">
+  <title>JANARIK — Task Dungeon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tasks.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="app">
+    <!-- ── SIDEBAR ─────────────────────────────── -->
+    <aside class="sidebar">
+      <a class="brand" href="index.html" title="Назад к плееру">
+        <span class="brand-icon">J</span>
+        <span class="brand-text">TASK<br>DUNGEON</span>
+      </a>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-head">
+          <span>ЗАКЛАДКИ</span>
+          <button id="addBookmarkBtn" class="icon-btn" title="Добавить закладку">＋</button>
+        </div>
+        <div id="bookmarksList" class="bookmarks-list"></div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-head">
+          <span>ВКЛАДКИ</span>
+        </div>
+        <div id="sidebarTabsList" class="bookmarks-list"></div>
+      </div>
+
+      <div class="sidebar-foot">
+        <span class="pulse"></span>BLOODY ANGEL<br>
+        <small>TASK DUNGEON / 2026</small>
+      </div>
+    </aside>
+
+    <!-- ── MAIN ──────────────────────────────────── -->
+    <main class="main">
+
+      <!-- Tabs bar -->
+      <div class="tabs-bar" id="tabsBar">
+        <div id="tabsList" class="tabs-list"></div>
+        <button id="addTabBtn" class="add-tab-btn">＋ Вкладка</button>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <h2 id="tabTitle">Задачи</h2>
+          <span id="taskCount" class="task-count"></span>
+        </div>
+        <div class="toolbar-right">
+          <div class="filter-chips" id="filterChips">
+            <button class="chip active" data-filter="all">Все</button>
+            <button class="chip" data-filter="todo">Активные</button>
+            <button class="chip" data-filter="done">Готово</button>
+          </div>
+          <button id="addTaskBtn" class="primary-btn">＋ Задача</button>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+        <span class="progress-label" id="progressLabel"></span>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <table class="task-table">
+          <thead>
+            <tr>
+              <th class="col-check">✓</th>
+              <th class="col-num">#</th>
+              <th class="col-title">Задача</th>
+              <th class="col-priority">Приоритет</th>
+              <th class="col-date">Срок</th>
+              <th class="col-tags">Тег</th>
+              <th class="col-notes">Заметка</th>
+              <th class="col-actions"></th>
+            </tr>
+          </thead>
+          <tbody id="taskTableBody"></tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══ MODAL: Task ════════════════════════════════ -->
+  <div id="taskModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay" data-close-modal="taskModal"></div>
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="modalTitle">Новая задача</h3>
+        <button class="modal-close" data-close-modal="taskModal">✕</button>
+      </div>
+      <form id="taskForm" autocomplete="off">
+        <label>
+          <span>Название *</span>
+          <input type="text" id="taskTitleInput" placeholder="Что нужно сделать..." required>
+        </label>
+        <div class="form-row">
+          <label>
+            <span>Приоритет</span>
+            <select id="taskPriorityInput">
+              <option value="high">● ВЫСОКИЙ</option>
+              <option value="med" selected>● СРЕДНИЙ</option>
+              <option value="low">● НИЗКИЙ</option>
+            </select>
+          </label>
+          <label>
+            <span>Срок</span>
+            <input type="date" id="taskDateInput">
+          </label>
+        </div>
+        <label>
+          <span>Тег</span>
+          <input type="text" id="taskTagInput" placeholder="работа, личное, идея...">
+        </label>
+        <label>
+          <span>Заметка</span>
+          <textarea id="taskNotesInput" placeholder="Любые детали..."></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="button" class="ghost-btn" data-close-modal="taskModal">Отмена</button>
+          <button type="submit" class="primary-btn">Сохранить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: Tab ═════════════════════════════════ -->
+  <div id="tabModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay" data-close-modal="tabModal"></div>
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="tabModalTitle">Настройка вкладки</h3>
+        <button class="modal-close" data-close-modal="tabModal">✕</button>
+      </div>
+      <form id="tabForm" autocomplete="off">
+        <label>
+          <span>Название</span>
+          <input type="text" id="tabNameInput" placeholder="Моя вкладка..." required>
+        </label>
+        <label>
+          <span>Цвет</span>
+          <div class="color-swatches" id="tabColorSwatches"></div>
+        </label>
+        <div class="form-actions">
+          <button type="button" id="deleteTabBtn" class="danger-btn">Удалить</button>
+          <button type="button" class="ghost-btn" data-close-modal="tabModal">Отмена</button>
+          <button type="submit" class="primary-btn">Сохранить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: Bookmark ════════════════════════════ -->
+  <div id="bookmarkModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay" data-close-modal="bookmarkModal"></div>
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="bmModalTitle">Закладка</h3>
+        <button class="modal-close" data-close-modal="bookmarkModal">✕</button>
+      </div>
+      <form id="bookmarkForm" autocomplete="off">
+        <label>
+          <span>Название</span>
+          <input type="text" id="bmNameInput" placeholder="Моя закладка..." required>
+        </label>
+        <div class="form-row">
+          <label>
+            <span>Иконка (эмодзи)</span>
+            <input type="text" id="bmIconInput" placeholder="💀" maxlength="4" style="width:80px">
+          </label>
+          <label style="flex:1">
+            <span>Ссылается на вкладку</span>
+            <select id="bmTabSelect"></select>
+          </label>
+        </div>
+        <label>
+          <span>Цвет</span>
+          <div class="color-swatches" id="bmColorSwatches"></div>
+        </label>
+        <div class="form-actions">
+          <button type="button" id="deleteBookmarkBtn" class="danger-btn">Удалить</button>
+          <button type="button" class="ghost-btn" data-close-modal="bookmarkModal">Отмена</button>
+          <button type="submit" class="primary-btn">Сохранить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+  <script src="tasks.js"></script>
+</body>
+</html>
